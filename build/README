@@ -1,8 +1,0 @@
-README 
-======
-This plugin provides parts of the GeoTools WFS-NG library module for JOSM plugins.
-    * Licensed under GPL v3 (see LICENSE)
-
-The current embedded version of GeoTools WFS-NG is a snapshot of WFS-NG version 18 for
-compatibility with the JOSM geotools plug-in. This is a temporary solution in anticipation
-of the first geotools 19 release.
