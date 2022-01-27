@@ -1,69 +1,167 @@
+<?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>josm-geotools-wfs</groupId>
   <artifactId>josm-geotools-wfs</artifactId>
-  <version>22.0.1</version>
+  <version>26.1</version>
   <name>Josm geotools wfs</name>
   <description>Extend the josm geotools plug-in with WFS functionality</description>
   <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
-        <configuration>
-          <source/>
-          <target/>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.6</version>
-        <executions>
-          <execution>
-        <id>copy-dependencies</id>
-        <phase>package</phase>
-        <goals>
-          <goal>copy-dependencies</goal>
-        </goals>
-        <configuration>
-          <outputDirectory>lib</outputDirectory>
-          <overWriteIfNewer>true</overWriteIfNewer>
-          <excludeGroupIds>net.sf.geographiclib,commons-pool, commons-beanutils,
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.9.0</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.6</version>
+          <executions>
+            <execution>
+              <id>copy-dependencies</id>
+              <phase>package</phase>
+              <goals>
+                <goal>copy-dependencies</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>lib</outputDirectory>
+                <overWriteIfNewer>true</overWriteIfNewer>
+                <excludeGroupIds>net.sf.geographiclib,commons-pool, commons-beanutils,
             commons-logging,hsqldb,javax.media,net.java.dev.jsr-275,it.geosolutions.imageio-ext,
             com.vividsolutions,it.geosolutions.jaiext,org.jaitools,org.ejml
           </excludeGroupIds>
-          <excludeArtifactIds>gt-api, gt-coverage,gt-data,gt-epsg-extension,
+                <excludeArtifactIds>gt-api, gt-coverage,gt-data,gt-epsg-extension,
             gt-hsql,gt-geotiff,gt-main,gt-opengis,gt-referencing,gt-metadata,
             gt-shapefile,jdom
           </excludeArtifactIds>
-        </configuration>
-      </execution>
-        </executions>
-      </plugin>
-    </plugins>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
   <dependencies>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-wfs-ng</artifactId>
       <version>${geotools.version}</version>
+      <scope>compile</scope>
+      <exclusions>
+        <!-- Dependencies from geotools in plugin -->
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-coverage</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-coverage-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-epsg-extension</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-epsg-hsql</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-geotiff</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-main</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-metadata</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-opengis</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-referencing</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.geotools</groupId>
+          <artifactId>gt-shapefile</artifactId>
+        </exclusion>
+        <!-- Dependencies from apache-http plugin -->
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpcore</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpmime</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.httpcomponents.client5</groupId>
+          <artifactId>httpclient5</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+    <!-- JOSM plugins -->
+    <dependency>
+      <groupId>org.openstreetmap.josm.plugins</groupId>
+      <artifactId>geotools</artifactId>
+      <version>SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openstreetmap.josm.plugins</groupId>
+      <artifactId>apache-http</artifactId>
+      <version>SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- JOSM -->
     <dependency>
       <groupId>org.openstreetmap.josm</groupId>
       <artifactId>josm</artifactId>
       <version>${josm.version}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
-    <repositories>
+  <repositories>
     <repository>
       <id>josm</id>
       <name>Josm repository</name>
       <url>https://josm.openstreetmap.de/nexus/content/repositories/releases/</url>
     </repository>
+    <repository>
+      <id>josm-snapshots</id>
+      <name>Josm Snapshot repository</name>
+      <url>https://josm.openstreetmap.de/nexus/content/repositories/snapshots/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>osgeo</id>
+      <name>OSGeo Release Repository</name>
+      <url>https://repo.osgeo.org/repository/release/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
   </repositories>
-    <properties>
-      <geotools.version>22.0</geotools.version>
-      <josm.version>15628</josm.version>
-    </properties>
+  <properties>
+    <geotools.version>26.1</geotools.version>
+    <josm.version>18360</josm.version>
+  </properties>
 </project>

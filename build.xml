@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="geotools-wfs" default="dist" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
-  <path id="maven-ant-tasks.classpath" path="tools/maven-ant-tasks-2.1.3.jar" />
-  <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
-           uri="antlib:org.apache.maven.artifact.ant"
-           classpathref="maven-ant-tasks.classpath" />
-  <artifact:pom id="mypom" file="pom.xml" />
-
+<project xmlns:artifact="antlib:org.apache.maven.artifact.ant" name="geotools-wfs" default="dist" basedir=".">
+  <path id="maven-ant-tasks.classpath" path="tools/maven-ant-tasks-2.1.3.jar"/>
+  <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath"/>
+  <artifact:pom id="mypom" file="pom.xml"/>
   <tstamp>
-    <format property="plugin.date" pattern="yyyy-MM-dd'T'HH:mm:ss'Z'" />
+    <format property="plugin.date" pattern="yyyy-MM-dd'T'HH:mm:ss'Z'"/>
   </tstamp>
-
   <!-- enter the *lowest* JOSM version this plugin is currently compatible with -->
-  <property name="plugin.main.version" value="15628"/>
-
-  <property name="plugin.author" value="Gertjan Idema"/>
+  <property name="plugin.main.version" value="18360"/>
+  <property name="plugin.author" value="Gertjan Idema, Sander H"/>
   <property name="plugin.class" value="org.openstreetmap.josm.plugins.geotools.GeoToolsPlugin"/>
   <property name="plugin.description" value="Extends the JOSM geotools plug-in with WFS support. Not meant to be installed directly by users, but rather as a dependency for other plugins."/>
-  <property name="plugin.version" value="${mypom.version}" />
+  <property name="plugin.version" value="${mypom.version}"/>
   <property name="plugin.icon" value="images/compass-wfs.png"/>
   <property name="plugin.canloadatruntime" value="false"/>
-  <property name="plugin.requires" value="geotools"/>
-  <property name="plugin.src.dir" value="src" />
-  <property name="plugin.lib.dir" value="lib" />
-  <property name="plugin.build.dir" value="build" />
-  <property name="plugin.dist.dir" value="dist" />
+  <property name="plugin.requires" value="apache-http;geotools"/>
+  <property name="plugin.src.dir" value="src"/>
+  <property name="plugin.lib.dir" value="lib"/>
+  <property name="plugin.build.dir" value="build"/>
+  <property name="plugin.dist.dir" value="dist"/>
   <property name="plugin.jar" location="${plugin.dist.dir}/${ant.project.name}.jar"/>
   <property name="merged.libraries.jar" location="merged.libraries.jar"/>
-  <property name="ant.build.javac.target" value="1.8" />
-  <property name="ant.build.javac.source" value="1.8" />
+  <property name="ant.build.javac.target" value="1.8"/>
+  <property name="ant.build.javac.source" value="1.8"/>
   <property name="plugin.stage" value="20"/>
-
   <!-- ** include targets that all plugins have in common ** -->
   <!--    <import file="./build-common.xml"/>-->
-
   <!--
     **********************************************************
     ** setup-dist - copies files for distribution
@@ -49,10 +42,10 @@
         <include name="*GPL*"/>
       </fileset>
     </copy>
-    <antcall target="merge-libraries" />
+    <antcall target="merge-libraries"/>
   </target>
   <target name="setup-dist">
-    <antcall target="setup-dist-default" />
+    <antcall target="setup-dist-default"/>
   </target>
   <!--
     **********************************************************
@@ -60,25 +53,24 @@
     **********************************************************
   -->
   <target name="compile">
-    <javac srcdir="${plugin.src.dir}" destdir="${plugin.build.dir}" source="1.8"
-      classpath="lib-josm/josm.jar"/>
+    <javac srcdir="${plugin.src.dir}" destdir="${plugin.build.dir}" source="1.8" classpath="lib-josm/josm.jar"/>
   </target>
   <!--
     **********************************************************
     ** dist - creates the plugin jar
     **********************************************************
   -->
-  <target name="dist" unless="skip-dist">
+  <target name="dist" unless="skip-dist" depends="clean">
     <echo message="creating ${ant.project.name}.jar ... "/>
-    <antcall target="setup-dist" />
-    <antcall target="compile" />
+    <antcall target="setup-dist"/>
+    <antcall target="compile"/>
     <delete file="MANIFEST" failonerror="no"/>
     <manifest file="MANIFEST">
       <attribute name="Plugin-Mainversion" value="${plugin.main.version}"/>
       <attribute name="Plugin-Version" value="${plugin.version}"/>
-      <attribute name="Plugin-Class" value="${plugin.class}" />
-      <attribute name="Plugin-Description" value="${plugin.description}" />
-      <attribute name="Plugin-Date" value="${plugin.date}" />
+      <attribute name="Plugin-Class" value="${plugin.class}"/>
+      <attribute name="Plugin-Description" value="${plugin.description}"/>
+      <attribute name="Plugin-Date" value="${plugin.date}"/>
       <attribute name="Author" value="${plugin.author}"/>
     </manifest>
     <antcall target="add-manifest-attribute">
@@ -86,112 +78,117 @@
       <param name="property.name" value="plugin.link"/>
       <param name="property.value" value="${plugin.link}"/>
     </antcall>
-        <antcall target="add-manifest-attribute">
-            <param name="manifest.attribute" value="Plugin-Icon"/>
-            <param name="property.name" value="plugin.icon"/>
-            <param name="property.value" value="${plugin.icon}"/>
-        </antcall>
-        <antcall target="add-manifest-attribute">
-            <param name="manifest.attribute" value="Plugin-Early"/>
-            <param name="property.name" value="plugin.early"/>
-            <param name="property.value" value="${plugin.early}"/>
-        </antcall>
-        <antcall target="add-manifest-attribute">
-            <param name="manifest.attribute" value="Plugin-Requires"/>
-            <param name="property.name" value="plugin.requires"/>
-            <param name="property.value" value="${plugin.requires}"/>
-        </antcall>
-        <antcall target="add-manifest-attribute">
-            <param name="manifest.attribute" value="Plugin-Stage"/>
-            <param name="property.name" value="plugin.stage"/>
-            <param name="property.value" value="${plugin.stage}"/>
-        </antcall>
-        <antcall target="add-manifest-attribute">
-            <param name="manifest.attribute" value="Plugin-Canloadatruntime"/>
-            <param name="property.name" value="plugin.canloadatruntime"/>
-            <param name="property.value" value="${plugin.canloadatruntime}"/>
-        </antcall>
-<!--        <antcall target="additional-manifest" />-->
-        <jar destfile="${plugin.jar}" manifest="MANIFEST" manifestencoding="UTF-8">
-            <fileset dir="${plugin.build.dir}"/>
-        </jar>
-        <delete file="MANIFEST" failonerror="no"/>
-        <!--<antcall target="post-dist" />-->
-    </target>
-
-    <target name="add-manifest-attribute" depends="check-manifest-attribute" if="have-${property.name}">
-        <manifest file="MANIFEST" mode="update">
-            <attribute name="${manifest.attribute}" value="${property.value}" />
-        </manifest>
-    </target>
-
-    <target name="check-manifest-attribute">
-        <condition property="have-${property.name}">
-            <and>
-                <isset property="${property.name}"/>
-                <not>
-                    <equals arg1="${property.value}" arg2=""/>
-                </not>
-                <not>
-                    <equals arg1="${property.value}" arg2="..."/>
-                </not>
-            </and>
-        </condition>
-    </target>
-
-<target name="merge-libraries">
-        <taskdef name="merge-services" classname="org.pescuma.mergeservices.MergeServicesTask" classpath="tools/merge-jar-services-0.0.1.jar" />
-     <merge-services dest="${merged.libraries.jar}">
-     <fileset dir="lib">
-     <include name="**/*.jar" />
-     <exclude name="**/*-source.jar" />
-     </fileset>
+    <antcall target="add-manifest-attribute">
+      <param name="manifest.attribute" value="Plugin-Icon"/>
+      <param name="property.name" value="plugin.icon"/>
+      <param name="property.value" value="${plugin.icon}"/>
+    </antcall>
+    <antcall target="add-manifest-attribute">
+      <param name="manifest.attribute" value="Plugin-Early"/>
+      <param name="property.name" value="plugin.early"/>
+      <param name="property.value" value="${plugin.early}"/>
+    </antcall>
+    <antcall target="add-manifest-attribute">
+      <param name="manifest.attribute" value="Plugin-Requires"/>
+      <param name="property.name" value="plugin.requires"/>
+      <param name="property.value" value="${plugin.requires}"/>
+    </antcall>
+    <antcall target="add-manifest-attribute">
+      <param name="manifest.attribute" value="Plugin-Stage"/>
+      <param name="property.name" value="plugin.stage"/>
+      <param name="property.value" value="${plugin.stage}"/>
+    </antcall>
+    <antcall target="add-manifest-attribute">
+      <param name="manifest.attribute" value="Plugin-Canloadatruntime"/>
+      <param name="property.name" value="plugin.canloadatruntime"/>
+      <param name="property.value" value="${plugin.canloadatruntime}"/>
+    </antcall>
+    <!--        <antcall target="additional-manifest" />-->
+    <jar destfile="${plugin.jar}" manifest="MANIFEST" manifestencoding="UTF-8">
+      <fileset dir="${plugin.build.dir}"/>
+    </jar>
+    <delete file="MANIFEST" failonerror="no"/>
+    <!--<antcall target="post-dist" />-->
+  </target>
+  <target name="add-manifest-attribute" depends="check-manifest-attribute" if="have-${property.name}">
+    <manifest file="MANIFEST" mode="update">
+      <attribute name="${manifest.attribute}" value="${property.value}"/>
+    </manifest>
+  </target>
+  <target name="check-manifest-attribute">
+    <condition property="have-${property.name}">
+      <and>
+        <isset property="${property.name}"/>
+        <not>
+          <equals arg1="${property.value}" arg2=""/>
+        </not>
+        <not>
+          <equals arg1="${property.value}" arg2="..."/>
+        </not>
+      </and>
+    </condition>
+  </target>
+  <target name="merge-libraries">
+    <taskdef name="merge-services" classname="org.pescuma.mergeservices.MergeServicesTask" classpath="tools/merge-jar-services-0.0.1.jar"/>
+    <merge-services dest="${merged.libraries.jar}">
+      <fileset dir="lib">
+        <include name="**/*.jar"/>
+        <exclude name="**/*-source.jar"/>
+      </fileset>
     </merge-services>
-<unjar src="${merged.libraries.jar}" dest="${plugin.build.dir}" />
-  <delete file="${merged.libraries.jar}" />
-<delete file="${plugin.build.dir}/META-INF/INDEX.LIST" />
-<delete file="${plugin.build.dir}/META-INF/ECLIPSE_.RSA" />
-    <delete file="${plugin.build.dir}/META-INF/ECLIPSE_.SF" />
-    </target>
-
-    <!--
+    <unjar src="${merged.libraries.jar}" dest="${plugin.build.dir}"/>
+    <delete file="${merged.libraries.jar}"/>
+    <delete file="${plugin.build.dir}/META-INF/INDEX.LIST"/>
+    <delete file="${plugin.build.dir}/META-INF/ECLIPSE_.RSA"/>
+    <delete file="${plugin.build.dir}/META-INF/ECLIPSE_.SF"/>
+  </target>
+  <!--
     **********************************************************
     ** post-dist - replaces files from the generated jar
     **********************************************************
     -->
-    <target name="post-dist">
-        <move file="${plugin.jar}" todir="${plugin.build.dir}" />
-        <jar destfile="${plugin.jar}" filesetmanifest="merge" manifestencoding="UTF-8">
-            <fileset dir="jar"/>
-            <zipfileset src="${plugin.build.dir}/${ant.project.name}.jar">
-                <exclude name="*.class"/>
-                <exclude name="*.html"/>
-                <exclude name="META-INF/**/*"/>
-                <exclude name="javax/*.txt"/>
-            </zipfileset>
-            <zipfileset src="${plugin.build.dir}/${ant.project.name}.jar">
-                <include name="META-INF/MANIFEST.MF"/>
-                <include name="META-INF/javax.media.jai.registryFile.jai"/>
-            </zipfileset>
-        </jar>
-        <delete file="${plugin.build.dir}/${ant.project.name}.jar" />
-    </target>
-
-    <!--
+  <target name="post-dist">
+    <move file="${plugin.jar}" todir="${plugin.build.dir}"/>
+    <jar destfile="${plugin.jar}" filesetmanifest="merge" manifestencoding="UTF-8">
+      <fileset dir="jar"/>
+      <zipfileset src="${plugin.build.dir}/${ant.project.name}.jar">
+        <exclude name="*.class"/>
+        <exclude name="*.html"/>
+        <exclude name="META-INF/**/*"/>
+        <exclude name="javax/*.txt"/>
+      </zipfileset>
+      <zipfileset src="${plugin.build.dir}/${ant.project.name}.jar">
+        <include name="META-INF/MANIFEST.MF"/>
+        <include name="META-INF/javax.media.jai.registryFile.jai"/>
+      </zipfileset>
+    </jar>
+    <delete file="${plugin.build.dir}/${ant.project.name}.jar"/>
+  </target>
+  <!--
     **********************************************************
     ** additional-manifest - add additional manifest entries 
     **********************************************************
     -->
-    <target name="additional-manifest">
-        <manifest file="MANIFEST" mode="update">
-        <!-- JAI requires a vendor name for some of its deep internals, 
+  <target name="additional-manifest">
+    <manifest file="MANIFEST" mode="update">
+      <!-- JAI requires a vendor name for some of its deep internals, 
              see http://stackoverflow.com/a/18495658/2257172 -->
-            <attribute name="Specification-Title" value="JOSM GeoToolsWFS plugin"/>
-            <attribute name="Specification-Version" value="22.0"/>
-            <attribute name="Specification-Vendor" value="JOSM developers" />
-            <attribute name="Implementation-Title" value="org.openstreetmap.josm.plugins.geotools_wfs" />
-            <attribute name="Implementation-Version" value="22.0" />
-            <attribute name="Implementation-Vendor" value="JOSM developers"/>
-        </manifest>
-    </target>
+      <attribute name="Specification-Title" value="JOSM GeoToolsWFS plugin"/>
+      <attribute name="Specification-Version" value="26.1"/>
+      <attribute name="Specification-Vendor" value="JOSM developers"/>
+      <attribute name="Implementation-Title" value="org.openstreetmap.josm.plugins.geotools_wfs"/>
+      <attribute name="Implementation-Version" value="26.1"/>
+      <attribute name="Implementation-Vendor" value="JOSM developers"/>
+    </manifest>
+  </target>
+  <!--
+    **********************************************************
+    ** clean - clean up the build environment
+    **********************************************************
+    -->
+  <target name="clean">
+    <delete dir="${plugin.build.dir}"/>
+    <delete file="${plugin.jar}"/>
+    <delete file="${plugin.debug.jar}"/>
+  </target>
 </project>
