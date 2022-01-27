@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>josm-geotools-wfs</groupId>
   <artifactId>josm-geotools-wfs</artifactId>
-  <version>26.1</version>
+  <version>26.2</version>
   <name>Josm geotools wfs</name>
   <description>Extend the josm geotools plug-in with WFS functionality</description>
   <build>
@@ -161,7 +161,7 @@
     </repository>
   </repositories>
   <properties>
-    <geotools.version>26.1</geotools.version>
+    <geotools.version>26.2</geotools.version>
     <josm.version>18360</josm.version>
   </properties>
 </project>
