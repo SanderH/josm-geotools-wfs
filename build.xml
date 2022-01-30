@@ -15,7 +15,7 @@
   <property name="plugin.icon" value="images/compass-wfs.png"/>
   <property name="plugin.canloadatruntime" value="false"/>
   <property name="plugin.requires" value="apache-http;geotools"/>
-  <property name="plugin.src.dir" value="src"/>
+  <property name="plugin.src.dir" value="src/main/java"/>
   <property name="plugin.lib.dir" value="lib"/>
   <property name="plugin.build.dir" value="build"/>
   <property name="plugin.dist.dir" value="dist"/>

@@ -1,0 +1,12 @@
+See also the release notes for the opendataservices and ods-bag plug-in.
+
+Version 26.2
+==============
+- Updated to Geotools 26.2
+- Fixed incompatibility with jts plugin 1.18.2 (thanks to taylor.smock)
+
+Version 22.0.1
+=============
+- New plugin for dependency on GT-WFS-NG which is missing in JOSM geotools plugin
+
+No release notes prior to Version 22.0 are available. 
