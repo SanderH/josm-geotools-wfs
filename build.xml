@@ -174,10 +174,10 @@
       <!-- JAI requires a vendor name for some of its deep internals, 
              see http://stackoverflow.com/a/18495658/2257172 -->
       <attribute name="Specification-Title" value="JOSM GeoToolsWFS plugin"/>
-      <attribute name="Specification-Version" value="26.1"/>
+      <attribute name="Specification-Version" value="26.2"/>
       <attribute name="Specification-Vendor" value="JOSM developers"/>
       <attribute name="Implementation-Title" value="org.openstreetmap.josm.plugins.geotools_wfs"/>
-      <attribute name="Implementation-Version" value="26.1"/>
+      <attribute name="Implementation-Version" value="26.2"/>
       <attribute name="Implementation-Vendor" value="JOSM developers"/>
     </manifest>
   </target>

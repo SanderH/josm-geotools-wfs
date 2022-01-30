@@ -113,6 +113,12 @@
         </exclusion>
       </exclusions>
     </dependency>
+	<!-- other geotools -->
+	<dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-referencing</artifactId>
+      <version>${geotools.version}</version>
+	</dependency>
     <!-- JOSM plugins -->
     <dependency>
       <groupId>org.openstreetmap.josm.plugins</groupId>
@@ -133,6 +139,17 @@
       <version>${josm.version}</version>
       <scope>provided</scope>
     </dependency>
+	<!-- Apache HTTP -->
+	<dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpclient</artifactId>
+	    <version>4.5.13</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpcore</artifactId>
+	    <version>4.4.15</version>
+	</dependency>
   </dependencies>
   <repositories>
     <repository>
