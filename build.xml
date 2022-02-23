@@ -9,12 +9,12 @@
   <!-- enter the *lowest* JOSM version this plugin is currently compatible with -->
   <property name="plugin.main.version" value="18360"/>
   <property name="plugin.author" value="Gertjan Idema, Sander H"/>
-  <property name="plugin.class" value="org.openstreetmap.josm.plugins.geotools.GeoToolsPlugin"/>
+  <property name="plugin.class" value="org.openstreetmap.josm.plugins.geotools_wfs.GeoToolsWfsPlugin"/>
   <property name="plugin.description" value="Extends the JOSM geotools plug-in with WFS support. Not meant to be installed directly by users, but rather as a dependency for other plugins."/>
   <property name="plugin.version" value="${mypom.version}"/>
   <property name="plugin.icon" value="images/compass-wfs.png"/>
   <property name="plugin.canloadatruntime" value="false"/>
-  <property name="plugin.requires" value="apache-http;geotools"/>
+  <property name="plugin.requires" value="ejml;apache-commons;jaxb;jts"/>
   <property name="plugin.src.dir" value="src/main/java"/>
   <property name="plugin.lib.dir" value="lib"/>
   <property name="plugin.build.dir" value="build"/>
