@@ -141,6 +141,14 @@
     <delete file="${plugin.build.dir}/META-INF/INDEX.LIST"/>
     <delete file="${plugin.build.dir}/META-INF/ECLIPSE_.RSA"/>
     <delete file="${plugin.build.dir}/META-INF/ECLIPSE_.SF"/>
+  	<!-- patch geotools wfs-ng 26.2 -->
+  	<copy file="patch-geotools/AbstractWFSStrategy.class" tofile="${plugin.build.dir}/org/geotools/data/wfs/internal/AbstractWFSStrategy.class"/>
+  	<copy file="patch-geotools/GetFeatureRequest.class" tofile="${plugin.build.dir}/org/geotools/data/wfs/internal/GetFeatureRequest.class"/>
+  	<copy file="patch-geotools/WFSFeatureSource.class" tofile="${plugin.build.dir}/org/geotools/data/wfs/WFSFeatureSource.class"/>
+  	<copy file="patch-geotools/Query.class" tofile="${plugin.build.dir}/org/geotools/data/Query.class"/>
+  	<copy file="patch-geotools/ContentFeatureSource.class" tofile="${plugin.build.dir}/org/geotools/data/store/ContentFeatureSource.class"/>
+  	<copy file="patch-geotools/ContentFeatureSource$1.class" tofile="${plugin.build.dir}/org/geotools/data/store/ContentFeatureSource$1.class"/>
+  	<copy file="patch-geotools/ContentFeatureSource$2.class" tofile="${plugin.build.dir}/org/geotools/data/store/ContentFeatureSource$2.class"/>
   </target>
   <!--
     **********************************************************
